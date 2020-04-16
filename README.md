@@ -1,5 +1,10 @@
-# Simple-Java-Calculator
+# Simple Java Calculator
 Simple Java Calculator / Calculadora Sencilla en Java
+
+Con doble pantalla / With double display.
+
+Note: Aún no reconoce los botones del teclado, sólo con el mouse.
+Note: Only mouse version.
 
 ![Captura / Screenshot](https://github.com/Engel23/Simple-Java-Calculator/blob/master/sshot-2020-04-16-%5B1%5D.png)
 
