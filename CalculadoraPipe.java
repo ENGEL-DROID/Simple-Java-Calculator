@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,15 +22,16 @@ public class CalculadoraPipe {
 	Double resultado;
 	Double num1 = 0.0;
 	Double num2 = 0.0;
-	String data, simbolo;
+	String data, simbolo, letraNro;
 	String operando = "";
+	String[] teclasNros = {"1","2","3","4","5","6","7","8","9","0"};
 	
 	// Constructor principal
 	public CalculadoraPipe() {
 		ConstruyeDispSup();
 		ConstruyeDispInf();
 		ConstruyeBotonera();
-		ConstruyeFrame();
+		ConstruyeFrame();		
 	}
 	
 	// Constructor de pantalla superior
@@ -59,22 +62,22 @@ public class CalculadoraPipe {
 		botonera.setLayout(new GridLayout(4, 4, 8, 8));
 		botonera.setPreferredSize(new Dimension(300, 250));
 		
-		botonera.add(btn1 = new JButton("1"));
-		botonera.add(btn2 = new JButton("2"));
-		botonera.add(btn3 = new JButton("3"));
-		botonera.add(btnSum = new JButton("+"));
-		botonera.add(btn4 = new JButton("4"));
-		botonera.add(btn5 = new JButton("5"));
-		botonera.add(btn6 = new JButton("6"));
-		botonera.add(btnRes = new JButton("-"));
-		botonera.add(btn7 = new JButton("7"));
-		botonera.add(btn8 = new JButton("8"));
-		botonera.add(btn9 = new JButton("9"));
-		botonera.add(btnMul = new JButton("x"));
-		botonera.add(btnClr = new JButton("C"));
-		botonera.add(btn0 = new JButton("0"));
-		botonera.add(btnEqu = new JButton("="));
-		botonera.add(btnDiv = new JButton("/"));
+		botonera.add(btn1 = new JButton("1")).setFocusable(false);
+		botonera.add(btn2 = new JButton("2")).setFocusable(false);
+		botonera.add(btn3 = new JButton("3")).setFocusable(false);
+		botonera.add(btnSum = new JButton("+")).setFocusable(false);
+		botonera.add(btn4 = new JButton("4")).setFocusable(false);
+		botonera.add(btn5 = new JButton("5")).setFocusable(false);
+		botonera.add(btn6 = new JButton("6")).setFocusable(false);
+		botonera.add(btnRes = new JButton("-")).setFocusable(false);
+		botonera.add(btn7 = new JButton("7")).setFocusable(false);
+		botonera.add(btn8 = new JButton("8")).setFocusable(false);
+		botonera.add(btn9 = new JButton("9")).setFocusable(false);
+		botonera.add(btnMul = new JButton("x")).setFocusable(false);
+		botonera.add(btnClr = new JButton("C")).setFocusable(false);
+		botonera.add(btn0 = new JButton("0")).setFocusable(false);
+		botonera.add(btnEqu = new JButton("=")).setFocusable(false);
+		botonera.add(btnDiv = new JButton("/")).setFocusable(false);
 		
 		ActionListener oyenteBtnNro = new OyenteDispInf();		
 		btn1.addActionListener(oyenteBtnNro);
@@ -95,7 +98,6 @@ public class CalculadoraPipe {
 		btnMul.addActionListener(oyenteOperando);
 		btnDiv.addActionListener(oyenteOperando);
 		btnEqu.addActionListener(oyenteOperando);
-		
 	}
 	
 	// Contructor de la calculadora
@@ -109,16 +111,20 @@ public class CalculadoraPipe {
 		frame.add(displaySup, BorderLayout.NORTH);
 		frame.add(displayInf, BorderLayout.CENTER);
 		frame.add(botonera, BorderLayout.SOUTH);
+
+		KeyListener oyenteTeclado = new EntradaTeclado();		
+		frame.addKeyListener(oyenteTeclado);
 		
 		frame.pack();
 		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 	}
 	
 	// Clase oyente de los botones números
 	public class OyenteDispInf implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			data = e.getActionCommand();			
+			data = e.getActionCommand();
 			double dataDouble = Double.parseDouble(btnDispInf.getText());
 			if (dataDouble == 0) {
 				btnDispInf.setText("");
@@ -137,6 +143,7 @@ public class CalculadoraPipe {
 	public class OyenteOperandos implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			operando = e.getActionCommand();
+			//-----------------------SUMA------------------------------
 			if (operando == "+") {
 				if (num1 == 0.0) {
 					num1 = Double.parseDouble(btnDispInf.getText());
@@ -146,6 +153,7 @@ public class CalculadoraPipe {
 				simbolo = "+";
 				btnDispInf.setText("0");
 				btnDispSup.setText(btnDispSup.getText() + "  " + simbolo + "  ");
+			//-----------------------RESTA------------------------------
 			} else if (operando == "-") {
 				if (num1 == 0.0) {
 					num1 = Double.parseDouble(btnDispInf.getText());
@@ -155,6 +163,7 @@ public class CalculadoraPipe {
 				simbolo = "-";
 				btnDispInf.setText("0");
 				btnDispSup.setText(btnDispSup.getText() + "  " + simbolo + "  ");
+			//-----------------------MULTIPLICACIÓN------------------------------
 			} else if (operando == "x") {
 				if (num1 == 0.0) {
 					num1 = Double.parseDouble(btnDispInf.getText());
@@ -164,6 +173,7 @@ public class CalculadoraPipe {
 				simbolo = "x";
 				btnDispInf.setText("0");
 				btnDispSup.setText(btnDispSup.getText() + "  " + simbolo + "  ");
+			//-----------------------DIVISIÓN------------------------------
 			} else if (operando == "/") {
 				if (num1 == 0.0) {
 					num1 = Double.parseDouble(btnDispInf.getText());
@@ -174,22 +184,122 @@ public class CalculadoraPipe {
 				btnDispInf.setText("0");
 				btnDispSup.setText(btnDispSup.getText() + "  " + simbolo + "  ");
 			}
+			//-----------------------IGUAL------------------------------
 			if (operando == "=") {
 				num2 = Double.parseDouble(btnDispInf.getText());
+				//--------------MULTIPLICAR------------------
 				if (simbolo == "x") {
 					resultado = num1 * num2;					
-				} else if (simbolo == "-") {
-					resultado = num1 - num2;					
-				} else if (simbolo == "+") {
-					resultado = num1 + num2;					
+				//--------------DIVIDIR------------------
 				} else if (simbolo == "/") {
 					resultado = num1 / num2;					
+				//--------------SUMAR------------------
+				} else if (simbolo == "+") {
+					resultado = num1 + num2;					
+				//--------------RESTAR------------------
+				} else if (simbolo == "-") {
+					resultado = num1 - num2;					
 				}
 				btnDispInf.setText(Double.toString(resultado));
 				btnDispSup.setText("= " + Double.toString(resultado));
 				num1 = 0.0;
 				num2 = 0.0;
 			}
+		}		
+	}
+
+	// Entrada Teclado
+	class EntradaTeclado extends JPanel implements KeyListener {		
+		public EntradaTeclado() {
+			setFocusable(true);
+		}
+		public void keyPressed(KeyEvent e) {
+			char nro = e.getKeyChar();
+			int letraCode = e.getKeyCode();
+			letraNro = Character.toString(nro);
+			// -----------------NÚMEROS------------------------------
+			for (int i=0; i<teclasNros.length; i++) {
+				if (btnDispInf.getText().equals("0")) {
+					btnDispInf.setText("");
+				}
+				if (letraNro.equals(teclasNros[i])) {
+					btnDispInf.setText(btnDispInf.getText() + letraNro);
+					btnDispSup.setText(btnDispSup.getText() + letraNro);
+					break;
+				}
+			}
+			// -----------------SÍMBOLOS------------------------------
+			if (letraNro.equalsIgnoreCase("c")) {
+				btnDispInf.setText("0");
+				btnDispSup.setText("0");
+				resultado = 0.0;
+			}
+			//-----------------------SUMA------------------------------
+			if (letraNro.equals("+")) {
+				if (num1 == 0.0) {
+					num1 = Double.parseDouble(btnDispInf.getText());
+				} else {
+					num1 = num1 + Double.parseDouble(btnDispInf.getText());
+				}
+				simbolo = "+";
+				btnDispInf.setText("0");
+				btnDispSup.setText(btnDispSup.getText() + "  " + simbolo + "  ");
+			//-----------------------RESTA------------------------------
+			} else if (letraNro.equals("-")) {
+				if (num1 == 0.0) {
+					num1 = Double.parseDouble(btnDispInf.getText());
+				} else {
+					num1 = num1 - Double.parseDouble(btnDispInf.getText());
+				}
+				simbolo = "-";
+				btnDispInf.setText("0");
+				btnDispSup.setText(btnDispSup.getText() + "  " + simbolo + "  ");
+			//-----------------------MULTIPLICACIÓN------------------------------
+			} else if (letraNro.equals("*")) {
+				if (num1 == 0.0) {
+					num1 = Double.parseDouble(btnDispInf.getText());
+				} else {
+					num1 = num1 * Double.parseDouble(btnDispInf.getText());
+				}
+				simbolo = "x";
+				btnDispInf.setText("0");
+				btnDispSup.setText(btnDispSup.getText() + "  " + simbolo + "  ");
+			//-----------------------DIVISIÓN------------------------------
+			} else if (letraNro.equals("/")) {
+				if (num1 == 0.0) {
+					num1 = Double.parseDouble(btnDispInf.getText());
+				} else {
+					num1 = num1 / Double.parseDouble(btnDispInf.getText());
+				}
+				simbolo = "/";
+				btnDispInf.setText("0");
+				btnDispSup.setText(btnDispSup.getText() + "  " + simbolo + "  ");
+			}
+			//-----------------------IGUAL------------------------------
+			if (letraCode == 10) {
+				num2 = Double.parseDouble(btnDispInf.getText());
+				//--------------MULTIPLICAR------------------
+				if (simbolo == "x") {
+					resultado = num1 * num2;					
+				//--------------DIVIDIR------------------
+				} else if (simbolo == "/") {
+					resultado = num1 / num2;					
+				//--------------SUMAR------------------
+				} else if (simbolo == "+") {
+					resultado = num1 + num2;					
+				//--------------RESTAR------------------
+				} else if (simbolo == "-") {
+					resultado = num1 - num2;					
+				}
+				btnDispInf.setText(Double.toString(resultado));
+				btnDispSup.setText("= " + Double.toString(resultado));
+				num1 = 0.0;
+				num2 = 0.0;
+			}			
+		}		
+		public void keyTyped(KeyEvent e) {
+		}		
+		public void keyReleased(KeyEvent e) {
 		}		
 	}
 	
