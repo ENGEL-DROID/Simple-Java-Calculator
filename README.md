@@ -1,4 +1,5 @@
-# Simple Java Calculator
+# Calculadora Sencilla con Java / Simple Java Calculator
+
 Simple Java Calculator / Calculadora Sencilla en Java
 
 Con doble pantalla / With double display.
